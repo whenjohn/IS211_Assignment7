@@ -12,25 +12,38 @@ class Die(object):
         self.sides = sides
     def roll(self, seed):
         random.seed(seed)
-        rando = random.randint(1,self.sides)
+        rando_roll = random.randint(1,self.sides)
         # game logic
-        if rando == 1:
-            rando = -1
-        return rando
+        if rando_roll == 1:
+            rando_roll = -1
+        return rando_roll
 
-class Game (Die):
-    """ Object for the stage of a game"""
-    def __init__(self, sides):
+class Player(object):
+    def __init__(self):
         self.players = []
-        Die.__init__(self, sides)
-    def create_player_list(self):
-        start_score = 0
-        self.players.append(start_score)
+    def create_player_list(self, num_of_players):
+        start_score = 0 # starting score is always zero for everyone
+        for x in range(num_of_players):
+            self.players.append(start_score)
     def return_player_list(self):
         return self.players
     def update_player_score(self, player_position, result):
         self.players[player_position] += result
         return self.players[player_position]
+
+class Game (object):
+    """ Object for the stage of a game"""
+    def __init__(self, sides):
+        self.game_die = Die(sides)
+        self.game_players = Player()
+    def roll(self, seed):
+        return self.game_die.roll(seed)
+    def create_player_list(self,num_of_players):
+        self.game_players.create_player_list(num_of_players)
+    def return_player_list(self):
+        return self.game_players.return_player_list()
+    def update_player_score(self, player_position, result):
+        return self.game_players.update_player_score(player_position, result)
 
 def game_loop(games,num_of_players,winning_score):
     """The loop of the game for single game
@@ -52,8 +65,7 @@ def game_loop(games,num_of_players,winning_score):
     game_continue = True
 
     # Assign player list
-    for x in range(num_of_players):
-        games.create_player_list()
+    games.create_player_list(num_of_players)
 
     # Game Loop
     while game_continue:
@@ -100,6 +112,7 @@ def game_loop(games,num_of_players,winning_score):
                 print 'Player {} wins!'.format(player_position + 1)
                 game_continue = False
                 break
+
 
 def input_int(question):
     """Function to ask a int question
