@@ -163,7 +163,7 @@ def main():
         Player 1 Turn
         Enter (r)ole or (h)old:r
     """
-    winning_score = 10
+    winning_score = 100
     counter = 1
     game_state_list = []
 
