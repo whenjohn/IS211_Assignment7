@@ -178,11 +178,13 @@ def main():
 
     # Get number of players in each game
     for x in range(num_of_games):
-        # list of tuples (Game class instnace, num_of_plauyers)
+        # Note. Use this commented code below if you want to also let the user define the number of players in each game
         #game_state_list.append((Game(6) ,(input_int("How many players in Game {}?: ".format((x + 1))))))
+
+        # list of tuples (Game class instnace, num_of_plauyers)
         game_state_list.append((Game(6) ,args.numPlayers))
 
-    # Play all games
+    # Play all games. Note that the games are not aware of each other
     for game_state, num_users in game_state_list:
         print "\nStarting Game",counter
         game_loop(game_state,num_users,winning_score)
